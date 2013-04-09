@@ -1,0 +1,71 @@
+.window-backdrop {
+    position: fixed;
+margin: auto;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 90;
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+filter: alpha(opacity=50);
+opacity: 0.50;
+background-color: #333 !important;
+}
+.window {
+    position: absolute;
+z-index: 99;
+margin: auto;
+width: 420px;
+border-radius: 8px;
+border: 1px solid #888;
+box-shadow: 0 0 80px 0 rgba(0,0,0,0.4);
+background: white;
+text-align: left;
+}
+.window-head {
+    position: relative;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#92B938',endColorstr='#8baf47');
+background: -webkit-gradient(linear,left top,left bottom,from(#92B938),to(#8baf47));
+background: -moz-linear-gradient(top,#92B938,#8baf47);
+background: linear-gradient(top,#92B938,#8baf47);
+background: #8baf47;
+padding: 10px 15px;
+cursor: move;
+border-radius: 6px 6px 0 0;
+border: 1px solid #8baf47;
+box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset,0 1px 1px rgba(0,0,0,0.2);
+line-height: 14px;
+}
+.window-mainTitle {
+    color: white;
+text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+font-size: 15px;
+}
+.float-btn {
+    width: 16px;
+height: 16px;
+background-image: url('../images/sprites.png');
+background-repeat: no-repeat;
+display: inline-block;
+vertical-align: middle;
+}
+.float-btn.close {
+    position: absolute;
+top: 50%;
+_top: 20px;
+right: 3px;
+width: 30px;
+height: 30px;
+margin-top: -15px;
+text-indent: -9999px;
+cursor: pointer;
+background-position: -60px -53px;
+}
+.window-body {
+    padding: 0 15px;
+margin: 17px 0;
+}
+.image-uploader .text-input {
+    margin: 0 15px 10px 0;
+width: 270px;
+}

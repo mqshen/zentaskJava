@@ -1,0 +1,81 @@
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+
+group = 'org.goldratio'
+version = '1.0'
+archivesBaseName = 'ZenTask'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceSets {
+  main {
+    output.classesDir   = 'src/main/webapp/WEB-INF/classes'
+  }
+}
+
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+repositories {
+    mavenRepo url: 'http://maven.springframework.org/release'
+    mavenRepo url: 'http://maven.springframework.org/snapshot'
+    mavenCentral()
+    mavenRepo url: 'http://maven.springframework.org/milestone'
+    mavenRepo url: 'https://repository.jboss.org/nexus/content/repositories/releases/'
+    mavenRepo url: 'http://download.java.net/maven/glassfish/org/glassfish/'
+    mavenRepo url: 'http://snapshots.repository.codehaus.org'
+}
+
+ext.springVersion='3.2.1.RELEASE'
+ext.springSecurityVersion='3.1.2.RELEASE'
+ext.springDataVersion='1.2.0.RELEASE'
+ext.hibernateVersion='4.1.6.Final'
+ext.tilesVersion='2.2.2'
+
+dependencies() {
+	compile("org.springframework:spring-orm:$springVersion")
+	compile("org.springframework:spring-aop:$springVersion")
+	compile("org.springframework:spring-web:$springVersion")
+	compile("org.springframework:spring-webmvc:$springVersion")
+	compile("org.springframework:spring-oxm:$springVersion")
+	compile("org.springframework:spring-aspects:$springVersion")
+   
+	compile("org.springframework.security:spring-security-core:$springSecurityVersion")
+ 	compile("org.springframework.security:spring-security-web:$springSecurityVersion")
+ 	compile("org.springframework.security:spring-security-config:$springSecurityVersion")
+ 	compile("org.springframework.security:spring-security-taglibs:$springSecurityVersion")
+ 	
+ 	compile("org.springframework.data:spring-data-jpa:$springDataVersion")
+ 	compile("org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final")
+    compile("org.hibernate:hibernate-entitymanager:$hibernateVersion")
+    compile("org.hibernate:hibernate-core:$hibernateVersion")
+    compile("org.hibernate:hibernate-validator:4.3.0.Final")
+ 	
+    compile("javax.servlet:javax.servlet-api:3.0.1")
+    compile("javax.servlet:jstl:1.2") 
+    compile("javax.servlet.jsp:jsp-api:2.1") 
+    compile("org.slf4j:slf4j-api:1.7.1")
+
+
+    compile("joda-time:joda-time:2.1")
+
+    compile("mysql:mysql-connector-java:5.1.16")
+
+    compile("commons-dbcp:commons-dbcp:1.4")
+    compile("commons-io:commons-io:2.4")
+    compile("commons-fileupload:commons-fileupload:1.2.2")
+    
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate4:2.1.1")
+    
+    
+	compile("org.apache.httpcomponents:httpmime:4.2.1")
+	compile("com.sun.mail:mailapi:1.5.0-b02")
+	compile("com.sun.mail:smtp:1.5.0-b02")
+	compile("org.apache.velocity:velocity:1.7")
+	compile("org.apache.velocity:velocity-tools:2.0")
+	
+	
+//    compile("javax:javaee-api:6.0")
+    compile("log4j:log4j:1.2.17")
+}

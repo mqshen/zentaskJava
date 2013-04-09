@@ -1,0 +1,120 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 1em;
+	list-style: none;
+	font-weight: normal;
+	text-decoration: none;
+}
+html {
+	background: #0D7BD5 url('../images/glow.png') no-repeat center center;
+	height: 100%;
+	_background: #0d7bd5;
+}
+body {
+	color: #B7D4EC;
+	color: rgba(255, 255, 255, .8);
+	font: 13px/22px 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, 'Hiragino Sans GB', sans-serif;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, .3);
+	position: relative;
+	height: 100%;
+	text-align: center;
+}
+.reg {
+	position: absolute;
+	top: 30px;
+	right: 40px;
+}
+.register {
+	display: inline-block;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #B7D4EC;
+	color: rgba(255, 255, 255, .8);
+	background: rgba(0, 0, 0, .1);
+	padding: 3px 15px;
+	border-radius: 50px;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .15), 0px 1px 3px rgba(0, 0, 0, .2) inset;
+}
+.register:hover {
+	background: rgba(0, 0, 0, .15);
+}
+#logon, #apply {
+	width: 700px;
+	height: 390px;
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	margin-left: -350px ;
+}
+#logon form {
+	position: relative;
+	width: 250px;
+}
+#localLogon {  
+	position: absolute;
+	width: 250px;
+    left: 50%;
+    top: 50px;
+	margin-left: -125px;
+}
+#logon h1 {
+	float: left;
+	width: 135px;
+	height: 99px;
+	text-indent: -9999px;
+	background: url('../images/logo.png') no-repeat 0 0;
+}
+#remoteLogon {  
+	position: relative;
+	float: left;
+	border-right: 1px solid #F6F4EE;
+}
+.connections {
+	width: 246px;
+}
+.connections a {
+	display: block;
+	float: left;
+	width: 114px;
+	height: 36px;
+	background: url(../images/login/btn_sprite.png) left top no-repeat;
+	text-indent: -999999px;
+	margin: 0 8px 5px 0;
+}
+
+.connections a.renren:hover{
+	background-position: 0px -40px;
+}
+.connections a.renren:active {
+	background-position: 0px -80px;
+}
+.connections a.weibo {
+	background-position: -456px 0;
+}
+.connections a.weibo:hover {
+	background-position:-456px -40px;
+}
+.connections a.weibo:active {
+	background-position:-456px -80px;
+}
+.connections a.douban {
+	background-position: -228px 0;
+}
+.connections a.douban:hover {
+	background-position: -228px -40px;
+}
+.connections a.douban:active {
+	background-position: -228px -80px;
+}
+.connections a.qzone {
+	background-position: -342px 0;
+}
+.connections a.qzone:hover {
+	background-position: -342px -40px;
+}
+.connections a.qzone:active {
+	background-position: -342px -80px;
+}

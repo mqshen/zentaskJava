@@ -1,0 +1,89 @@
+.lily-calendar-head {
+	position: relative;
+}
+
+.lily-calendar-head a {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	margin: 6px 0px 0px 0px;
+}
+
+.lily-calendar-head .prev {
+	left: 60px;
+	background: url('../img/Content_pic.png') no-repeat;
+	background-position: -460px -640px;
+}
+
+.lily-calendar-head .next {
+	right: 60px;
+	background: url('../img/Content_pic.png') no-repeat;
+	background-position: -460px -660px;
+}
+
+.lily-datepicker-title {
+	width: 100%;
+	float: left;
+	height: 21px;
+	background: url('../img/Content_pic.png') no-repeat;
+	background-position: -460px -800px;
+	text-align: center;
+	line-height: 21px;
+}
+.lily-calendar-area {
+	position: relative;
+	height: 21px;
+}
+.lily-week-area {
+	position: relative;
+	width: 100%;
+	background: url('../img/calendar_week_bg.png') repeat-x;
+}
+.lily-week-head {
+	width: 100%;
+	text-align: center;
+	border-spacing: 1px;
+}
+
+.lily-week-head td {
+	width: 14%;
+}
+
+.lily-days-table {
+	width: 100%;
+	text-align: center;
+	border-spacing: 1px;
+	border-color: black;
+    margin-top: 5px;
+}
+.lily-days-table td {
+	width: 14%;
+	cursor: pointer;
+}
+.lily-days-table td {
+    border: 0px ;
+}
+
+.lily-days-table .today {
+	color: white;
+	background-color: #0f769f;
+}
+
+.off-month {
+    background: #ffffff;
+color: #cccccc;
+cursor: default;
+	opacity: 0.6;
+}
+
+.on-month {
+background: #f3f3f3;
+color: #333333;
+-webkit-text-shadow: 0 1px 0 #fff;
+-moz-text-shadow: 0 1px 0 #fff;
+text-shadow: 0 1px 0 #fff;
+}
+
+.on-month:hover {
+    background: #cbe0ff;
+}

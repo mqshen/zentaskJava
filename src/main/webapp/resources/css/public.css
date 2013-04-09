@@ -1,0 +1,113 @@
+a {
+	color: #259;
+	-webkit-transition: color .1s ease, background-color .1s ease;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+	font-weight: bold;
+	font-size: 14px;
+	outline: 0;
+	margin: 0;
+}
+h5 {
+	margin-bottom: 14px;
+	font-size: 14px;
+	font-weight: 700;
+}
+.middot {
+	padding: 0 5px;
+}
+.clearfix::before, .clearfix::after {
+	content: "";
+	display: table;
+}
+.clearfix::after {
+	clear: both;
+}
+.clearfix::before, .clearfix::after {
+	content: "";
+	display: table;
+}
+.text {
+	display: inline-block;
+	width: 248px;
+	padding: 10px;
+	margin: 0 0 18px;
+	font-size: 14px;
+	line-height: 18px;
+	background: #E8F4FC;
+	border: 1px solid #0D7BD5;
+	color: #888;
+	cursor: text;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .3),0 1px 3px rgba(0, 0, 0, .3) inset;
+	background-clip: padding-box;
+	border-radius: 5px;
+}
+.text:focus {
+	background: white;
+}
+label.hold {
+	position: absolute;
+	left: -999em;
+}
+.button {
+	background: #1E95E5;
+	color: #B7D4EC;
+	color: rgba(255, 255, 255, .8);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05),0 1px 0 rgba(255, 255, 255, .15) inset;
+	border: 1px solid #147DCD;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	line-height: 18px;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+	padding: 6px 15px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 5px;
+	float: left;
+	-webkit-appearance: none;
+}
+.iphone-app-landing {
+	position: relative;
+	top: 2em;
+	clear: both;
+	width: 501px;
+	height: 370px;
+	background: url(/static/images/proj/ios/noauth-logon-banner.png) no-repeat;
+	margin-left: 100px;
+}
+.iphone-app-landing a {
+	position: relative;
+	top: 230px;
+	left: 155.5px;
+	display: block;
+	width: 190px;
+	height: 64px;
+	text-indent: -9999em;
+	background: url(/static/images/proj/ios/noauth-button-release.png) no-repeat;
+}
+.iphone-app-landing a:hover {
+	background-position: 0 bottom;
+}  
+.less {
+	margin-top: 20px;
+	font-size: 12px;
+}
+.fr {
+	float: right;
+}
+.failure {
+	color: #B7D4EC;
+	color: rgba(255, 255, 255, .8);
+	background: rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .15),0px 1px 3px rgba(0, 0, 0, .2) inset;
+	color: #B7D4EC	9;
+	background: #0C6EBF	9;
+	border-radius: 4px;
+	padding: 5px 0px 5px 10px;
+	text-align: left;
+	font-size: 10px;
+	margin: 0 0 20px;
+}
