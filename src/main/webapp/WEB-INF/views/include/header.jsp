@@ -4,11 +4,13 @@
 <div class="header">
   		<ul class="nav">
 		<li class="active" id="nav-project"><a href="${contextPath}/project" data-stack="" data-stack-bare="" data-stack-root="">项目</a></li>
-                 <li id="nav-progress">
-                     <a href="/operations" >回顾</a>
-                 </li>
-		<li id="nav-members"><a href="${contextPath}/member" data-stack="" data-stack-bare="" data-stack-root="">团队</a></li>
-		<li id="nav-me"><a href="/members?me=1" data-stack="" data-stack-root="">我自己</a></li>
+        <li id="nav-progress">
+        	<a href="${contextPath}/operation">回顾</a>
+        </li>
+		<li id="nav-members">
+			<a href="${contextPath}/member">团队</a>
+		</li>
+		<li id="nav-me"><a href="${contextPath}/member/${sessionScope.user.id}" data-stack="" data-stack-root="">我自己</a></li>
 		<li id="nav-notifications">
 			<a class="link" href="/notifications" data-stack="" data-stack-root="">通知</a>
 			<a href="javascript:;" id="notification-count" class="label" title="新的通知">0</a>

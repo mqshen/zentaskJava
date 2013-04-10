@@ -32,9 +32,9 @@ public class HomeMvcConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/ent/**").addResourceLocations("/ent/").setCachePeriod(31556926);
+		//registry.addResourceHandler("/ent/**").addResourceLocations("/ent/").setCachePeriod(31556926);
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
-		registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/").setCachePeriod(31556926);
+		//registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/").setCachePeriod(31556926);
 	}
 
 	@Override

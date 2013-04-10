@@ -16,4 +16,5 @@ public interface InviteUserRepository extends CrudRepository<InviteUser, String>
 	
 	InviteUser findByHashCode(String hashCode);
 	
+	InviteUser findByEmailAndTeamId(String email, Long teamId);
 }

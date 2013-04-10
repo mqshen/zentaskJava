@@ -15,7 +15,7 @@
 				<div class="page sheet-root" id="page-team-show" data-page-name="所有项目" >
 					<div class="projects ui-sortable">
 					<c:forEach items="${projects}" var="project">
-					<div class="project" data-access-id="70023">
+					<div class="project" >
             			<a title="@project.title" href="${contextPath}/project/${project.id}" class="folder c2 i2" data-stack="" data-stack-root="" data-restore-position="">
                 			<i class="badge-edit" title="修改项目图标和颜色"></i>
 			            </a>

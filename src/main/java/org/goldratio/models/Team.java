@@ -25,8 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @Entity
-@Table(name = "project")
-@JsonIgnoreProperties(value={"invitedMembers"})
+@Table(name = "team")
+@JsonIgnoreProperties(value={"invitedMembers", "projects", "members"})
 public class Team  extends BaseModel implements Serializable{ 
 	/**
 	 * 
@@ -36,21 +36,21 @@ public class Team  extends BaseModel implements Serializable{
     private Long authorId;
 	private Date createTime;
 	
-	@ManyToOne(optional=false) 
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="authorId", insertable=false, updatable=false)
 	private User author;
 	
-	@OneToMany(fetch= FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="teamId")
 	private List<Project> projects;
 	
-	@ManyToMany 
+	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="teamUserRel", 
-          joinColumns=@JoinColumn(name="teamId"),
-          inverseJoinColumns=@JoinColumn(name="userId"))
+          joinColumns=@JoinColumn(name="teamId", referencedColumnName="id"),
+          inverseJoinColumns=@JoinColumn(name="userId", referencedColumnName="id"))
 	private List<User> members;
 
-	@OneToMany(fetch= FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="teamId")
 	private List<InviteUser> invitedMembers;
 	

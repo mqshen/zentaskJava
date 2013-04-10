@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.goldratio.core.ZenTaskConstants;
 import org.goldratio.models.Project;
 import org.goldratio.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class ProjectController {
 	
 	@RequestMapping("/project")
 	public ModelAndView listProject(HttpServletResponse response, HttpSession session)  {
-		long teamId = (Long) session.getAttribute("teamId");
-		List<Project> projects = projectRepository.findByTeamId(teamId);
+		Long reamId = (Long) session.getAttribute(ZenTaskConstants.TEAM_FIELD); 
+		List<Project> projects = projectRepository.findByTeamId(reamId);
 		return new ModelAndView("projects", "projects", projects);
 	}
 	

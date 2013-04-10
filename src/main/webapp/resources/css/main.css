@@ -80,15 +80,6 @@ em {
 	font-style: normal
 }
 
-@font-face {
-	font-family: "towericon";
-	src: url("towericon.woff");
-	src: url("towericon.eot");
-	src: url("towericon.eot?#iefix") format("embedded-opentype"),
-		url("towericon.woff") format("woff"), url("towericon.ttf")
-		format("truetype")
-}
-
 .workspace .sheet.sheet-active html {
 	overflow-y: scroll
 }

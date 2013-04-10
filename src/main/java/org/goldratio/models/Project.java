@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,11 +37,11 @@ public class Project  extends BaseModel implements Serializable{
 	/**
 	 * 所有讨论
 	 */
-	@OneToMany
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="projectId")
 	private List<Message> messages;
 	
-	@ManyToMany 
+	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="projectUserRel", 
           joinColumns=@JoinColumn(name="projectId"),
           inverseJoinColumns=@JoinColumn(name="userId"))

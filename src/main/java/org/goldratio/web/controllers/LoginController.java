@@ -1,6 +1,7 @@
 package org.goldratio.web.controllers;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.goldratio.core.ZenTaskConstants;
+import org.goldratio.models.Team;
 import org.goldratio.models.User;
 import org.goldratio.repositories.UserRepository;
 import org.goldratio.util.ZenTaskUtil;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 
 /** 
  * ClassName: LoginController <br/> 
@@ -70,8 +73,14 @@ public class LoginController {
 			cookie.setMaxAge(-1);
 			session.setAttribute(ZenTaskConstants.UUID, uuid);
 			session.setAttribute(ZenTaskConstants.USER_FIELD, user);
-			session.setAttribute("teamId", 1L);
+			List<Team> teams = user.getTeams();
 			response.addCookie(cookie);
+			if(teams == null || teams.size() == 0)
+				return new ModelAndView("redirect:/failed");
+			if(teams.size() > 1)
+				return new ModelAndView("selectTeam", "teams", teams);
+			Team team = teams.get(0);
+			session.setAttribute(ZenTaskConstants.TEAM_FIELD, team.getId());
 			return new ModelAndView("redirect:/project");
 		}
 		return new ModelAndView("login");

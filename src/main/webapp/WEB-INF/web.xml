@@ -38,5 +38,11 @@
 			<taglib-location>/WEB-INF/tlds/fmt.tld</taglib-location>
 		</taglib>
 	</jsp-config>
+	
+	
+	<error-page> 
+	    <error-code>404</error-code> 
+	    <location>/notFound.jsp</location> 
+	</error-page> 
 
 </web-app>

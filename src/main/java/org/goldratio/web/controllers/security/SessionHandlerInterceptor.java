@@ -28,8 +28,10 @@ public class SessionHandlerInterceptor extends HandlerInterceptorAdapter {
 		boolean passCheck = false;
 		if(cookies != null) {
 			for(Cookie cookie: cookies) {
+				
 				if(cookie.getName().equals(ZenTaskConstants.UUID)){
 					String currentUuid = cookie.getValue();
+					
 					if(currentUuid.equals(session.getAttribute(ZenTaskConstants.UUID))) {
 						passCheck = true;
 					}

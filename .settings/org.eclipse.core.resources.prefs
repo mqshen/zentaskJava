@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/main/java/org/goldratio/core/config/ApplicationConfig.java=UTF-8
+encoding//src/main/java/org/goldratio/core/config/SystemConfig.java=UTF-8
+encoding//src/main/java/org/goldratio/core/config/support/WebEnvironmentConfigSupport.java=UTF-8
+encoding//src/main/java/org/goldratio/models/User.java=UTF-8
+encoding//src/main/resources/config/velocity/invite.vm=UTF-8
+encoding//src/main/webapp/WEB-INF/views/login.jsp=UTF-8

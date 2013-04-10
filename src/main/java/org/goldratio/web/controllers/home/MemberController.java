@@ -4,6 +4,7 @@ package org.goldratio.web.controllers.home;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.goldratio.core.ZenTaskConstants;
 import org.goldratio.models.Team;
 import org.goldratio.repositories.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,9 @@ public class MemberController {
 	
 	@RequestMapping("/member")
 	public ModelAndView listMember(HttpServletResponse response, HttpSession session)  {
-		long teamId = (Long) session.getAttribute("teamId");
-		Team team = teamRepository.findById(teamId);
-		return new ModelAndView("member", "team", team);
+		Long teamId = (Long) session.getAttribute(ZenTaskConstants.TEAM_FIELD);
+		Team testTeam = teamRepository.findById(teamId);
+		return new ModelAndView("member", "team", testTeam);
 	}
 	
 }

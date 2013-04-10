@@ -1,15 +1,15 @@
 package org.goldratio.models;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Random;
+import java.util.List;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.goldratio.util.ZenTaskUtil;
 
@@ -41,6 +41,19 @@ public class User  extends BaseModel implements Serializable{
     private String nickName;
     private String description;
     private String avatarUrl;
+    
+
+	@ManyToMany(fetch= FetchType.LAZY)
+    @JoinTable(name="teamUserRel", 
+          joinColumns=@JoinColumn(name="userId", referencedColumnName="id"),
+          inverseJoinColumns=@JoinColumn(name="teamId", referencedColumnName="id"))
+	private List<Team> teams;
+    
+    @Transient
+    private int role;
+    
+    @Transient
+    private Team currentTeam;
 
     public String getName() {
         return name;
@@ -98,16 +111,11 @@ public class User  extends BaseModel implements Serializable{
 		this.salt = salt;
 	}
 
-	public void encryptPass( String password ) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		Random random = new Random();
+	public void encryptPass( String password ) {
 		StringBuffer strBuffer = new StringBuffer();
-		for(int i = 0; i < SALT_LENGTH; ++i) {
-			strBuffer.append(SALT_STRING.charAt(random.nextInt(SALT_STRING.length())));
-		}
-        setSalt( salt );
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), getSalt().getBytes(), 65536, 128);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        setPassword( new String(f.generateSecret(spec).getEncoded() ));
+    	strBuffer.append(password).append(this.getSalt());
+        String passwordEncrypt = ZenTaskUtil.getMD5Str(strBuffer.toString());
+        setPassword(passwordEncrypt);
     }
 
     public boolean authPass( String password ) {
@@ -117,5 +125,29 @@ public class User  extends BaseModel implements Serializable{
         return getPassword().equals(passwordEncrypt);
     }
     
-    
+    @Transient
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
+    @Transient
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
+
+	public void setCurrentTeam(Team currentTeam) {
+		this.currentTeam = currentTeam;
+	}
+	
+    public List<Team> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
+	}
 }

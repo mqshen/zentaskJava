@@ -15,8 +15,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import  javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage;
 
 /** 
  * ClassName: MailServiceImpl <br/> 

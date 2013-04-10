@@ -29,7 +29,7 @@ public class InviteUser {
 	private int role;
 	
 	@OneToMany
-	@JoinColumn(name="inviteId")
+	@JoinColumn(name="inviteId", insertable=false, updatable=false)
 	private List<InviteProject> inviteProjects;
 	
 	public String getHashCode() {

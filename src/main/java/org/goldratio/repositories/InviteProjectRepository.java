@@ -1,5 +1,7 @@
 package org.goldratio.repositories;
 
+import java.util.List;
+
 import org.goldratio.models.InviteProject;
 import org.goldratio.models.InviteProjectPk;
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +17,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface InviteProjectRepository extends CrudRepository<InviteProject, InviteProjectPk> {
 	
-	InviteProject findByInviteId(Long inviteId);
+	List<InviteProject> findByInviteId(Long inviteId);
 	
 }

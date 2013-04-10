@@ -46,8 +46,6 @@
 				</div>
 			</div>
 		</div>
-		<form:form id="csrfForm" method="post">
-		</form:form>
 		<jsp:include page="include/footer.jsp"></jsp:include>
 	</div>
 </body>
