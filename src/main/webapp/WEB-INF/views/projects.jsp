@@ -16,7 +16,7 @@
 					<div class="projects ui-sortable">
 					<c:forEach items="${projects}" var="project">
 					<div class="project" >
-            			<a title="@project.title" href="${contextPath}/project/${project.id}" class="folder c2 i2" data-stack="" data-stack-root="" data-restore-position="">
+            			<a title="${project.title}" href="${contextPath}/project/${project.id}" class="folder c2 i2" data-stack="" data-stack-root="" data-restore-position="">
                 			<i class="badge-edit" title="修改项目图标和颜色"></i>
 			            </a>
         			    <h6 class="name">
@@ -26,7 +26,7 @@
 			        </div>
 					</c:forEach>
 					<div class="project new">
-						<a title="创建新项目" class="folder" href="/project/new" data-stack="" data-stack-root="">
+						<a title="创建新项目" class="folder" href="${contextPath}/project/create" data-stack="" data-stack-root="">
 							<span class="badge"></span>
 						</a>
 					</div>

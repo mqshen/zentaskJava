@@ -11,13 +11,13 @@
 
 .lily-calendar-head .prev {
 	left: 60px;
-	background: url('../img/Content_pic.png') no-repeat;
+	background: url('../images/Content_pic.png') no-repeat;
 	background-position: -460px -640px;
 }
 
 .lily-calendar-head .next {
 	right: 60px;
-	background: url('../img/Content_pic.png') no-repeat;
+	background: url('../images/Content_pic.png') no-repeat;
 	background-position: -460px -660px;
 }
 
@@ -25,7 +25,7 @@
 	width: 100%;
 	float: left;
 	height: 21px;
-	background: url('../img/Content_pic.png') no-repeat;
+	background: url('../images/Content_pic.png') no-repeat;
 	background-position: -460px -800px;
 	text-align: center;
 	line-height: 21px;
@@ -37,7 +37,7 @@
 .lily-week-area {
 	position: relative;
 	width: 100%;
-	background: url('../img/calendar_week_bg.png') repeat-x;
+	background: url('../images/calendar_week_bg.png') repeat-x;
 }
 .lily-week-head {
 	width: 100%;

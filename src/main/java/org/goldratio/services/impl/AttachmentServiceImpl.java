@@ -37,6 +37,9 @@ public class AttachmentServiceImpl implements AttachmentService{
 	private static final int AVATAR_IMAGE_HEIGHT = 10;
 	
 	
+	private static final String attachmentPath = "attachment/";
+	
+	
 	@Autowired
 	private Properties configProperties;
 	
@@ -97,6 +100,38 @@ public class AttachmentServiceImpl implements AttachmentService{
 			}
 		}
 		
+	}
+
+	@Override
+	public void downloadAttachment(String path, OutputStream outputStream)
+			throws IOException, ServerException {
+		String avararPath = configProperties.getProperty(ZenTaskConstants.FILE_UPLOAD_PATH);
+		File readFile = new File(avararPath + attachmentPath + path);
+		if(readFile.exists()) {
+			InputStream in = null;
+			try {
+				in = new FileInputStream(readFile);
+				IOUtils.copy(in, outputStream);
+			}
+			finally {
+				if(in != null)
+					in.close();
+			}
+		}
+	}
+
+	@Override
+	public String uploadAttachment(MultipartFile file) throws IOException,
+			ServerException {
+		if(file != null) {
+			//String fileName = file.getOriginalFilename();
+			String avararPath = configProperties.getProperty(ZenTaskConstants.FILE_UPLOAD_PATH);
+			String fileName = UUID.randomUUID().toString();
+			File savefile = new File(avararPath + attachmentPath + fileName);
+			FileUtils.writeByteArrayToFile(savefile, file.getBytes());
+			return fileName;
+		}
+		return null;
 	}
 
 }

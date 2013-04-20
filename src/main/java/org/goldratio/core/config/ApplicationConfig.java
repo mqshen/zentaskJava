@@ -289,13 +289,7 @@ public class ApplicationConfig implements SchedulingConfigurer, AsyncConfigurer 
 		return new CommonsMultipartResolver();
 	}
 	
-	/**
-	 * passwordEncoder，用来给密码加密，以保证数据库中存储的密码是密文
-	 *
-	 * @return {@link ShaPasswordEncoder}
-	 *
-	 * @author jojo 2013-1-10 上午8:45:37
-	 */
+	
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new ShaPasswordEncoder();

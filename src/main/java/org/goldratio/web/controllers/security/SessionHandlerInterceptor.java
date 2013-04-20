@@ -31,7 +31,6 @@ public class SessionHandlerInterceptor extends HandlerInterceptorAdapter {
 				
 				if(cookie.getName().equals(ZenTaskConstants.UUID)){
 					String currentUuid = cookie.getValue();
-					
 					if(currentUuid.equals(session.getAttribute(ZenTaskConstants.UUID))) {
 						passCheck = true;
 					}

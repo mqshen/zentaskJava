@@ -15,7 +15,7 @@
 		    this.oldText = this.$submitButton.text()
 		    this.$submitButton.attr("disabled",true).text(this.$submitButton.attr("data-disable-with"))
             var $this = $(this) 
-            var requestData = this.collectRequestData()
+            var requestData = $.lily.collectRequestData(this.$element);
             if(this.$element.data("collectData")) {
                 var specialData = this.$element.data("collectData")()
                 $.extend(requestData, specialData)
@@ -41,52 +41,6 @@
         resetForm: function() {
 		    this.$submitButton.attr("disabled", false).text(this.oldText)
             this.$element[0].reset()
-        },
-        collectRequestData: function() {
-            var orginRequestData = {}
-            $('input' , this.$element).each(function() {
-                // 待用统一方法完善
-                if (this.type == 'checkbox') {
-                    if (this.checked) {
-                        orginRequestData[this.name] = '1'
-                    } 
-                    else {
-                        orginRequestData[this.name] = '0'
-                    }
-                } 
-                else if (this.type == 'radio') {
-                    if (this.checked) {
-                        orginRequestData[this.name] = this.value
-                    }
-                }
-                else {
-                    var $this = $(this)
-                    /*
-                    var dataValidate = $this.attr('data-validate')
-                    if(dataValidate) {
-                        var config = $.parseJSON(dataValidate)
-                        if(config.type && config.type == 'currency') {
-                            orginRequestData[this.name] = $.lily.format.removeComma(this.value)
-                            return
-                        }
-                        else {
-                            orginRequestData[this.name] = this.value
-                            return
-                        }
-                    }
-                    */
-                    orginRequestData[this.name] = this.value
-                }
-            })
-            
-            $('textarea' , this.$element).each(function() {
-                orginRequestData[this.name] = this.value
-            })
-            
-            $('select' , this.$element).each(function() {
-                orginRequestData[this.name] = this.value
-            })
-            return orginRequestData
         }
 
     }

@@ -54,7 +54,16 @@ public class Comment extends BaseModel implements Serializable {
 		this.authorId = authorId;
 	}
 
-	
+
+	private Long teamId;
+
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
 
 	public Long getMessageId() {
 		return messageId;
@@ -88,5 +97,15 @@ public class Comment extends BaseModel implements Serializable {
 		this.author = author;
 	}
 
+
+	private Long projectId;
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
 
 }

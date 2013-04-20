@@ -33,7 +33,10 @@
 			    this.$editor.click(observeFormatting).keyup(observeFormatting);
             }
         },
-
+        
+        buildFileContainer: function() {
+        },
+        
 		buildToolbar: function() {
 			if (this.options.toolbar === false) {
 				return false;
@@ -746,10 +749,9 @@
 
 
     $.fn.editor.defaults = {
-        buttons: ['html', '|', 
+        buttons: [
             'bold', 'italic', 'deleted', '|', 
-            'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
-			'image', 'video', 'file', , 'link', '|'], 
+            'unorderedlist', 'orderedlist', 'outdent', 'indent', '|'], 
 		activeButtons: ['deleted', 'italic', 'bold', 'underline', 'unorderedlist', 'orderedlist'], 
 		activeButtonsStates: {
 			b: 'bold',

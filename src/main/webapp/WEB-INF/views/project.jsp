@@ -1,8 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://goldratio.com/jsp/zentask" prefix="zentask" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<jsp:useBean id="now" class="java.util.Date"/>
 <html>
 	<head>
     <jsp:include page="include/common.jsp"></jsp:include>
@@ -18,7 +21,69 @@
 	<script src="${contextPath}/resources/scripts/lib/lily.todo.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/scripts/lib/i18n/lily.calendar-zh-CN.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/scripts/lib/lily.popover.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/scripts/lib/jquery.atmosphere.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/scripts/project.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+	$(function() {
+		var socket = $.atmosphere;
+		var subSocket;
+		var transport = 'websocket';
+		var websocketUrl = "${contextPath}/websockets";
+		
+		var asyncHttpStatistics = {
+				transportType: 'N/A',
+				responseState: 'N/A',
+				numberOfTotalMessages: 0,
+				numberOfTweets: 0,
+				numberOfErrors: 0
+			};
+		function refresh() {
+
+			console.log("Refreshing data tables...");
+
+			$('#transportType').html(asyncHttpStatistics.transportType);
+			$('#responseState').html(asyncHttpStatistics.responseState);
+			$('#numberOfCallbackInvocations').html(asyncHttpStatistics.numberOfTotalMessages);
+			$('#numberOfTweets').html(asyncHttpStatistics.numberOfTweets);
+			$('#numberOfErrors').html(asyncHttpStatistics.numberOfErrors);
+
+		}
+		var request = {
+			url: websocketUrl,
+			contentType : "application/json",
+			logLevel : 'debug',
+			//shared : 'true',
+			transport : transport ,
+			fallbackTransport: 'long-polling',
+			//reconnectInterval: 10000,
+			//callback: callback,
+			onMessage: function(response) {
+				console.log("this is a test message")
+			},
+			onOpen: function(response) {
+				console.log('Atmosphere onOpen: Atmosphere connected using ' + response.transport);
+				transport = response.transport;
+		    },
+			onReconnect: function (request, response) {
+				console.log("Atmosphere onReconnect: Reconnecting");
+		    },
+			onClose: function(response) {
+				console.log('Atmosphere onClose executed');
+			},
+
+			onError: function(response) {
+				console.log('Atmosphere onError: Sorry, but there is some problem with your '
+					+ 'socket or the server is down');
+			},
+			data: $.lily.collectCsrfData()
+		};
+		subSocket = socket.subscribe(request);
+		$("#testfortest").click(function(){
+			subSocket.push("sdfffffffffffffjsjdjfjs");
+		})
+	});
+	</script>
     </head>
     <body>
     	<div class="wrapper">
@@ -27,52 +92,20 @@
 	<div class="page sheet sheet-active sheet-root" id="page-project" data-page-name="test" >
 		<div class="page-inner">
 			<div class="project-header">
-				<div class="project-title">test</div>
-				<div class="project-desc">test</div>
+				<div class="project-title">${project.title }</div>
+				<div class="project-desc">${project.content }</div>
 			</div>
 			
 			<div class="link-admin">
 				<a href="${contextPath}/project/${project.id}/members" class="link-admin-members" title="成员管理" data-stack="" data-nocache="">成员管理</a>
-				<a href="${contextPath}/project/${project.id}/settings/" class="link-admin-settings" title="项目设置" data-stack="" data-nocache="">项目设置</a>
+				<a href="${contextPath}/project/${project.id}/settings" class="link-admin-settings" title="项目设置" data-stack="" data-nocache="">项目设置</a>
 			</div>
 			
 			<div class="section-messages" data-droppable="">
 				<h3 class="topics-head">
 					<a class="title" href="${contextPath}/project/${project.id}/topic/" data-stack="">讨论</a>
-					<a href="javascript:;" class="btn btn-mini btn-new-discussion" data-toggle="button-display" data-content="#new-discussion-form" data-hidden="#no-discussion-div">发起新的讨论</a>
+					<a href="${contextPath}/project/${project.id}/message" class="btn btn-mini btn-new-discussion" >发起新的讨论</a>
 				</h3>
-				
-				<form class="form form-editor form-new-discussion" id="new-discussion-form" action="${contextPath}/project/${project.id}/message" method="post" data-remote="true" data-type="json">
-					<div class="form-item">
-						<div class="form-field">
-							<input tabindex="1" type="text" name="title" id="txt-title" placeholder="话题" data-validate="length:0,255" data-validate-msg="话题最长255个字符" data-autosave="new-message-title">
-						</div>
-					</div>
-					<div class="form-item">
-						<div class="form-field">
-							<textarea tabindex="1" name="content" id="txt-content" placeholder="说点什么..." data-blur-validate="false" data-validate="custom" data-autosave="new-message-content"></textarea>
-						</div>
-					</div>
-					<div class="form-item notify">
-						<div class="notify-title">
-							发送通知给：
-							<span class="select-all">
-								[ <a href="javascript:;" class="link-select-all">全选</a> | <a href="javascript:;" class="link-select-none">全不选</a> ]
-							</span>
-						</div>
-						<div class="form-field">
-							<ul class="member-list">
-								<li>
-									<label><input tabindex="1" type="checkbox" name="notice" value="bba9abd2ac66441986769e3ebe8795fa">tower.im</label>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="form-buttons">
-						<button tabindex="1" class="btn btn-primary" id="btn-post" data-toggle="submit" data-disable-with="正在提交...">发起讨论</button>
-						<a tabindex="2" href="javascript:;" class="btn btn-x" id="link-cancel-post" data-toggle="button-display" data-content="#new-discussion-form" data-hidden="#no-discussion-div">取消</a>
-					</div>
-				</form>
 
                 <div class="messages" id="messages">
                 <c:forEach items="${project.messages}" var="message">
@@ -190,7 +223,7 @@
                             		        </div>
                                     	</div>
                                       	<div class="todo-wrap">
-                                      		<input type="checkbox" name="todo-done" data-toggle="remote" href="/@teamId/project/@project.id/list/@todoList.id/item/@todoItem.id/done">
+                                      		<input type="checkbox" name="todo-done" data-toggle="remote" href="${contextPath}/project/${project.id}/todoList/${todoList.id}/todoItem/${todoItem.id}/done">
 		                            		<c:if test="${todoItem.running}">
 	                                      		<span class="runner on" title="${todoItem.worker.name} 正在做这条任务">
 	                                      			<img alt="${todoItem.worker.name }" class="avatar" src="${contextPath}/avatar/${todoItem.worker.avatarUrl}">
@@ -204,16 +237,19 @@
                                       		</span>
                                  			<c:choose>
 												<c:when test="${not empty todoItem.worker}">
-                                 			   		<a href="javascript:;" class="label todo-assign-due " data-toggle="popover" data-conent="#tpl-todo-popover">${todoItem.worker.name}</a>
+                                 			   		<a href="${contextPath}/project/${project.id}/todoList/${todoList.id}/todoItem/${todoItem.id}/worker" data-remote="true" data-date-name="deadLine" class="label todo-assign-due <c:if test="${todoItem.deadLine lt now}">delay</c:if>" data-toggle="popover" data-conent="#tpl-todo-popover">
+                                 			   			<span class="assignee">${todoItem.worker.name}&nbsp;</span>
+                                 			   			<span class="due"><fmt:formatDate value="${todoItem.deadLine}" pattern="yyyy-MM-dd" /></span>
+                                 			   		</a>
 											   	</c:when>
 											   	<c:otherwise>
-                                      				<a href="javascript:;" class="label todo-assign-due no-assign" data-toggle="popover" data-conent="#tpl-todo-popover">未指派</a>
+                                      				<a href="${contextPath}/project/${project.id}/todoList/${todoList.id}/todoItem/${todoItem.id}/worker" data-remote="true" data-date-name="deadLine" class="label todo-assign-due no-assign" data-toggle="popover" data-conent="#tpl-todo-popover">未指派</a>
 											   	</c:otherwise>
 											</c:choose>
                                  	    </div>
                                     </li>
                                     </c:if>
-									</c:forEach> 
+									</c:forEach>
                                	</ul>
                                	<ul class="todo-new-wrap" >
 								<li class="todo-form" id="new-todo-form-container-${todoList.id}">
@@ -233,7 +269,7 @@
                             		        </div>
                                     	</div>
                                       	<div class="todo-wrap">
-                                      		<input type="checkbox" name="todo-done" data-toggle="remote" href="/@teamId/project/@project.id/list/@todoList.id/item/@todoItem.id/undone" checked>
+                                      		<input type="checkbox" name="todo-done" data-toggle="remote" href="${contextPath}/project/${project.id}/todoList/${todoList.id}/todoItem/${todoItem.id}/undone" checked>
                                        		<span class="todo-content">
                                        			<span>${todoItem.title}</span>
                                                 <a href="${contextPath}/project/${project.id}/todoList/${todoList.id}/item/${todoItem.id}/" >
@@ -251,7 +287,7 @@
                                  	    </div>
                                      </li>
                                      </c:if>
-                                     </c:forEach>
+                                     </c:forEach> 
                                  </ul>
                              </div>
                            </c:forEach> 
@@ -372,10 +408,10 @@
         <div class="assign-due-popover">
         	<div class="select-assignee">
         		<h3>将任务指派给</h3>
-        		<select tabindex="62" name="assignee_guid" class="todo-assignee" >
-                    @project.users.map{ user => 
-                        <option value="@user.id">@user.name</option>
-                    }
+        		<select tabindex="62" name="workerId" class="todo-assignee" >
+					<c:forEach items="${project.members}" var="member">
+   				    	<option value="${member.id}">${member.name}</option>
+   				    </c:forEach>
         	  </select>
         	</div>
         	<div class="select-due-date">
@@ -427,8 +463,12 @@
    	<div class="todo-conditions">
    		<div class="condition">
    			<span>截止: </span>
-   			<a tabindex="3" href="javascript:;" class="link-todo-due"><span class="due" data-toggle="popover" data-conent="#tpl-todo-popover-datepick">没有截止时间</span></a>
-   			<input type="hidden" name="deadLine" class="todo-due-date">
+   			<a tabindex="3" href="javascript:;" class="link-todo-due">
+   				<span class="due label" data-toggle="popover" data-conent="#tpl-todo-popover-datepick">
+   				没有截止时间
+   				</span>
+	   			<input type="hidden" name="deadLine" class="todo-due-date">
+   			</a>
    		</div>
    		<div class="condition">
    			<span>指派给: </span>

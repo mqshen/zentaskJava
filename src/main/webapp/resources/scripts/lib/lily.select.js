@@ -78,6 +78,7 @@
 
   $(document).on('click.select.data-api', '[data-toggle^=select]', function (e) {
     var $btn = $(e.target)
+    if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
     $btn.select('toggle')
   })
 

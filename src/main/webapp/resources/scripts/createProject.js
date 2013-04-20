@@ -8,10 +8,10 @@ $(function() {
 		return {members: members};
 	}
 
-    $(document).ready(function(){
-    	$("#projectCreateForm").each(function(){
+    	$("#form").each(function(){
             $(this).data('collectData', projectCollect);
         })
-    
-    })
+        $("#form").data("doResponse", function(){
+        	document.location.href = $.lily.contextPath + '/project'
+        })
 })

@@ -12,8 +12,13 @@
 
         doReponseTodoItem: function(responseData) {
         	var workerName = ''
+        	var deadLine = ''
         	if(responseData.todoItem.worker)
         		workerName = responseData.todoItem.worker.name 
+            if(responseData.todoItem.deadLine) {
+            	deadLine = responseData.todoItem.deadLine 
+            	deadLine = $.lily.format.formatDate(deadLine)
+            }
             var contentStr = '<li class="todo" ><div class="todo-actions actions"><div class="inr">' + 
                 '<a href="' + responseData.teamId + '/project/' + responseData.projectId + '/list/' + responseData.listId + 'item/' + responseData.todoItem.id + '/running" class="run" title="标记成正在进行中">执行</a>' +
                 '<a href="' + responseData.teamId + '/project/' + responseData.projectId + '/list/' + responseData.listId + 'item/' + responseData.todoItem.id + '/pause" class="pause" title="暂停">暂停</a>' +
@@ -26,7 +31,10 @@
 			    '<span>' + responseData.todoItem.title + '</span>' +
                 '<a href="' + responseData.teamId + '/project/' + responseData.projectId + '/todoList/' + responseData.listId + '/todoItem/' + responseData.todoItem.id + '">' + responseData.todoItem.title + '</a>' +
 		        '</span>' +
-			    '<a href="javascript:;" class="label todo-assign-due " >' + workerName + '</a>' +
+			    '<a href="javascript:;" class="label todo-assign-due " data-toggle="popover" data-conent="#tpl-todo-popover">' + 
+			    '<span class="assignee">' + workerName + '&nbsp;</span>' + 
+			    '<span class="due">' + deadLine + '</span>' + 
+			    '</a>' +
 	            '</div>' +
                 '</li>'
             $(contentStr).appendTo('#todos-uncompleted-container-' + responseData.todoItem.todoListId)

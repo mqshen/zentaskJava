@@ -45,7 +45,7 @@ $(function() {
 	        '<ul class="todos todos-uncompleted ui-sortable" id="todos-uncompleted-container-' + responseData.todoList.id + '" ></ul>' +
             '<ul class="todo-new-wrap">' +
 		    '<li class="todo-form" >' +
-            '<button type="button" class="btn btn-mini btn-new-todo" data-toggle="append" data-content="#new-todo-form-container" data-url="' + responseData.todoList.id + '">添加新任务</button>' +
+            '<button type="button" class="btn btn-mini btn-new-todo" data-toggle="append" data-content="#new-todo-form-container" data-url="' + responseData.todoList.id + '/todoItem">添加新任务</button>' +
 		    '</li>' +
             '</ul>' +
             '<ul class="todos todos-completed">' +
@@ -59,9 +59,16 @@ $(function() {
         var hiddenButton = $('[data-toggle="append"]', $todoList)
         hiddenButton.click()
     }
-    $(document).ready(function(){
-    	$("#new-discussion-form").data('doResponse', doReponse)
-    	$("#new-todoList-form").data('doResponse', doReponseTodoList)
-        $('.datepicker').calendar()
-    })
+    function processDeadline(date, $content) {
+    	console.log(date)
+    	console.log(this)
+    	console.log($content)
+    	if(this.attr("id") == "tpl-todo-popover-datepick") {
+    		console.log(this.next('input'));
+    		this.next('input').val(date);
+    	}
+    }
+    
+    $("#new-discussion-form").data('doResponse', doReponse)
+    $("#new-todoList-form").data('doResponse', doReponseTodoList)
 })

@@ -3,7 +3,9 @@ package org.goldratio.repositories;
 import java.util.List;
 
 import org.goldratio.models.Project;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 /** 
  * ClassName: UserRepository <br/> 
  * Function: TODO <br/> 
@@ -21,4 +23,9 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 	List<Project> findByAuthorId(long authorId);
 	
 	List<Project> findByTeamId(long teamId);
+	
+	@Query(value = "select p from Project p JOIN p.members u" +
+			" where p.teamId = :teamId" + 
+			" and u.id = :userId" )
+	List<Project> findByTeamIdAndUserId(@Param("teamId") long teamId, @Param("userId") Long userId);
 }

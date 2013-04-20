@@ -37,8 +37,44 @@
                             <div class="info">
                                 <a class="author" href="/members/${message.author.id}" >${message.author.name}</a>
                                 <span class="create-time" title="2013-03-22 14:46">${message.createTime}</span>
-                        </div>
-		                <div class="message-content editor-style editable" id="txt-content" name="content" data-type="textarea">${message.content}</div>
+                        	</div>
+		                	<div class="message-content editor-style editable" id="txt-content" name="content" data-type="textarea">${message.content}</div>
+		                	<div class="attachments-preview editable" data-type="file">
+			                	<div class="file-list" >
+			                		<div class="file-images">
+					                <c:forEach items="${message.getImageFiles()}" var="imageFile">
+				                	<div class="file selected" data-toggle="select" data-content="${imageFile.id}" name="files">
+					                	<div class="file-thumb">
+					                		<a href="javascript:;" title="点击预览">
+												<img class="image" alt="" src="${contextPath}/attachment/${imageFile.url}?thumb=1">
+											</a>
+					                	</div>
+					                	<a class="remove" data-toggle="remove" href="javascript:;">&nbsp;</a>
+				                	</div>
+				                	</c:forEach>
+			                					<div style="clear:both"></div>
+				                	</div>
+				                	<div class="file-others">
+					                <c:forEach items="${message.getOtherFiles()}" var="imageFile">
+					                	<div class="file selected" data-toggle="select" data-content="${imageFile.id}" name="files">
+					                		<div class="file-thumb">
+					                			<a href="${contextPath}/attachment/${imageFile.url}">
+					                				<img alt="README" src="${contextPath}/resources/images/file_extension_others.png">
+					                			</a>
+					                			<a class="remove" data-toggle="remove" href="javascript:;">&nbsp;</a>
+					                		</div>
+					                		<div class="file-info">
+												<div class="title">
+													<a class="name" href="${contextPath}/attachment/${imageFile.url}" data-stack="" title="">${imageFile.name}</a>
+													<span class="name"><a href="${contextPath}/attachment/${imageFile.url}" target="_blank" title="">${imageFile.name}</a></span>
+												</div>
+											</div>
+					                	</div>
+				                	</c:forEach>
+			                					<div style="clear:both"></div>
+				                	</div>
+			                	</div>
+		                	</div>
 	                </div>
                 </div>
 			</div>
@@ -72,25 +108,6 @@
                             <div>
                                 <textarea id="txt-new-comment" tabindex="1" autofocus="" class="content" name="content"></textarea>
                             </div>
-			                <div class="form-item notify" id="message-comment-div" >
-                                <div class="notify-title">发送通知给：
-                                    <span class="receiver" style="display: none;"></span>
-                                    <span class="change-notify" style="display: none;">
-                    					[ <a href="javascript:;" class="link-change-notify">更改</a> ]
-					                </span>
-                    				<span class="select-all" style="">[ <a href="javascript:;" class="link-select-all">全选</a> | <a href="javascript:;" class="link-select-none">全不选</a> ]</span>
-                                </div>
-				                <div class="form-field">
-                    				<ul class="member-list">
-						                <li>
-                    						<label>
-                    							<input type="checkbox" tabindex="-1" value="bba9abd2ac66441986769e3ebe8795fa" name="noticeCheckBox">
-                    							tower.im
-                    						</label>
-                    					</li>
-	                    			</ul>
-                    			</div>
-                            </div>
 
                     		<div class="form-buttons">
                     			<button tabindex="1" data-toggle="submit" class="btn btn-primary btn-create-comment" data-disable-with="正在发送...">发表评论</button>
@@ -101,10 +118,10 @@
                 </div>
 				<div class="detail-actions" data-author-guid="a795e4b7ca5e4766972e9609696217a3">
 					<div class="item" data-visible-to="creator" style="display: block;">
-						<a href="${contextPath}/project/${message.projectId}/message/${message.id}" data-target=".message" class="detail-action detail-action-edit" data-toggle="editorTrigger" >编辑</a>
+						<a href="${contextPath}/project/${message.projectId}/message/${message.id}" data-content='{"messageId": ${message.id}, "projectId": ${message.projectId}}' data-target=".message" class="detail-action detail-action-edit" data-toggle="editorTrigger" >编辑</a>
 					</div>
 					<div class="item" data-visible-to="creator,admin" style="display: block;">
-						<a href="/projects/f1a6a280a67343fa827f5722e4c71f76/messages/0c1a4d9073e34d8ba35585aee549c497/destroy" class="detail-action detail-action-del" data-confirm="确定要删除这条讨论吗？" data-method="post" data-remote="true" rel="nofollow">删除</a>
+						<a href="${contextPath}/project/${message.projectId}/message/${message.id}/destroy" class="detail-action detail-action-del" data-confirm="确定要删除这条讨论吗？" data-method="post" data-remote="true" rel="nofollow">删除</a>
 					</div>
 					<div class="item" data-visible-to="admin" style="display: block;">
 						<a href="javascript:;" class="detail-action detail-action-move">移动...</a>

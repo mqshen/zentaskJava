@@ -91,5 +91,14 @@
     if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
     $btn.button('toggle')
   })
+  
+  
+  $(document).on('click.button.data-api', '[data-toggle^=remove]', function (e) {
+    var $btn = $(e.target)
+    if (!$btn.hasClass('selected')) $btn = $btn.closest('.selected')
+    $btn.hide()
+    $btn.removeClass("selected")
+  })
+  
 
 }(window.jQuery);

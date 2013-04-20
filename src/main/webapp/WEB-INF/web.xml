@@ -2,12 +2,6 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
-	<listener>
-		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
-	</listener>
-
-
     
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -36,6 +30,10 @@
 		<taglib>
 			<taglib-uri>http://java.sun.com/jstl/fmt</taglib-uri>
 			<taglib-location>/WEB-INF/tlds/fmt.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://goldratio.com/jsp/zentask</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/my.tld</taglib-location>
 		</taglib>
 	</jsp-config>
 	

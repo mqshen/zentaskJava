@@ -1,9 +1,12 @@
 package org.goldratio.web;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.atmosphere.cpr.MeteorServlet;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -20,6 +23,9 @@ import org.springframework.web.servlet.DispatcherServlet;
  */
 
 public class WebInitializer implements WebApplicationInitializer {
+	
+	private static final long WEBSOCKET_INACTIVITY_TIMEOUT_IN_MILLIS =
+            TimeUnit.MINUTES.toMillis(30);
 	
 	private String profile = "develop";
 //	private String profile = "junit";
@@ -43,6 +49,26 @@ public class WebInitializer implements WebApplicationInitializer {
 		home.setLoadOnStartup(1);
 		home.addMapping("/");
 		
+		
+
+		DispatcherServlet webSocketServlet = new DispatcherServlet();
+		webSocketServlet.setContextClass(AnnotationConfigWebApplicationContext.class);
+		webSocketServlet.setContextConfigLocation("org.goldratio.web.config.WebSocketMvcConfig");
+		
+        MeteorServlet meteorServlet = new MeteorServlet(webSocketServlet, "/");
+        ServletRegistration.Dynamic dispatcher = ctx.addServlet("comet", meteorServlet);
+        dispatcher.setInitParameter("org.atmosphere.cpr.broadcasterClass", "org.atmosphere.cpr.DefaultBroadcaster");
+        dispatcher.setInitParameter("org.atmosphere.cpr.CometSupport.maxInactiveActivity", Long.toString(WEBSOCKET_INACTIVITY_TIMEOUT_IN_MILLIS));
+        dispatcher.setInitParameter("org.atmosphere.useStream", "true");
+        dispatcher.setInitParameter("org.atmosphere.useWebSocket", "true");
+        dispatcher.setInitParameter("org.atmosphere.useNative", "true");
+        dispatcher.setInitParameter("org.atmosphere.cpr.broadcaster.shareableThreadPool", "true");
+        dispatcher.setInitParameter("org.atmosphere.cpr.broadcasterLifeCyclePolicy", "IDLE");
+        dispatcher.setInitParameter("org.atmosphere.cpr.sessionSupport", "true");
+        dispatcher.setInitParameter("org.atmosphere.cpr.AtmosphereInterceptor", "org.atmosphere.interceptor.JSONPAtmosphereInterceptor,org.atmosphere.interceptor.SSEAtmosphereInterceptor");
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/websockets");
+		
 		DispatcherServlet loginServlet = new DispatcherServlet();
 		loginServlet.setContextClass(AnnotationConfigWebApplicationContext.class);
 		loginServlet.setContextConfigLocation("org.goldratio.web.config.LoginMvcConfig");
@@ -58,6 +84,7 @@ public class WebInitializer implements WebApplicationInitializer {
 		join.setLoadOnStartup(3);
 		join.addMapping("/join/*");
 		
+		//Servlet dispatcherServlet = new DispatcherServlet(rootCtx);
 		
 	}
 

@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -26,10 +27,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value={"todoList", "author"})
 public class TodoItem  extends BaseModel implements Serializable {
 	
-	static final int CREATE = 0;
-	static final int PAUSE = 1;
-	static final int RUNNING = 2;
-	static final int DONE = 3;
+	public static final int CREATE = 0;
+	public static final int PAUSE = 1;
+	public static final int RUNNING = 2;
+	public static final int DONE = 3;
 	/**
 	 * 
 	 */
@@ -38,15 +39,20 @@ public class TodoItem  extends BaseModel implements Serializable {
 	private Long authorId;
 	private Long todoListId;
 	private Long workerId;
+	
 	private Date deadLine;
+	
 	private Date createTime;
+
+	private Long projectId;
+	private Long teamId;
 	private Integer status = CREATE;
 
 	@ManyToOne(optional=false, fetch = FetchType.LAZY) 
 	@JoinColumn(name="authorId", insertable=false, updatable=false)
 	private User author;
 	
-	@ManyToOne(optional=false) 
+	@ManyToOne(optional=false, fetch = FetchType.LAZY) 
 	@JoinColumn(name="workerId", insertable=false, updatable=false)
 	private User worker;
 
@@ -148,4 +154,20 @@ public class TodoItem  extends BaseModel implements Serializable {
 	public void setPause() {
 		this.status = PAUSE;
 	}
+
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
 }

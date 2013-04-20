@@ -109,5 +109,18 @@ public class Team  extends BaseModel implements Serializable{
 	public void setInvitedMembers(List<InviteUser> invitedMembers) {
 		this.invitedMembers = invitedMembers;
 	}
+
+	@Override
+	public Long getTeamId() {
+		// TODO Auto-generated method stub
+		/** 
+		 * getTeamId:(这里用一句话描述这个方法的作用). <br/> 
+		 * TODO(这里描述这个方法适用条件 – 可选).<br/> 
+		 * 
+		 * @author GoldRatio 
+		 * date: Apr 20, 2013 10:56:13 AM <br/> 
+		 */
+		return null;
+	}
 	
 }

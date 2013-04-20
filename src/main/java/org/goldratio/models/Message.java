@@ -1,6 +1,7 @@
 package org.goldratio.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "message")
-@JsonIgnoreProperties(value={"project", "author", "comments"})
+@JsonIgnoreProperties(value={"project", "author", "comments","imageFiles"})
 public class Message extends BaseModel implements Serializable {
 	/**
 	 * 
@@ -55,6 +57,11 @@ public class Message extends BaseModel implements Serializable {
 	@JoinColumn(name="messageId")
 	private List<Comment> comments;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="ownId", insertable=false, updatable=false)
+	@Where(clause = "ownType = 0")
+	private List<File> files;
+	
 	public int getCommentNum() {
 		return commentNum;
 	}
@@ -128,6 +135,42 @@ public class Message extends BaseModel implements Serializable {
 		this.comments = comments;
 	}
 
+	public List<File> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<File> files) {
+		this.files = files;
+	}
 	
+	public List<File> getImageFiles() {
+		List<File> imageFiles = new ArrayList<File>();
+		for(File file: this.getFiles()) {
+			if(file.isImageFile())
+				imageFiles.add(file);
+		}
+		return imageFiles;
+	}
+	
+	public List<File> getOtherFiles() {
+		List<File> otherFiles = new ArrayList<File>();
+		for(File file: this.getFiles()) {
+			if(!file.isImageFile())
+				otherFiles.add(file);
+		}
+		return otherFiles;
+	}
+	
+	
+	
+	private Long teamId;
+
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
 
 }

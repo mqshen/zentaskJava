@@ -42,8 +42,8 @@ public class TodoList  extends BaseModel implements Serializable {
 	private User author;
 	
 	
-	@OneToMany
-	@JoinColumn(name="todoListId")
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="todoListId", insertable=false, updatable=false)
 	private List<TodoItem> todoItems;
 
 
@@ -103,4 +103,15 @@ public class TodoList  extends BaseModel implements Serializable {
 	public void setTodoItems(List<TodoItem> todoItems) {
 		this.todoItems = todoItems;
 	}
+	
+	private Long teamId;
+
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
+
 }

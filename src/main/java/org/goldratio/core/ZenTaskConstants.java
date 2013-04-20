@@ -15,6 +15,9 @@ public class ZenTaskConstants {
 	
 	public static final String USER_FIELD = "user";
 	
+	public static final String USER_ID_FIELD = "user_id";
+	
+	
 	public static final String TEAM_FIELD = "team";
 
 	public static final String FILE_UPLOAD_PATH = "system.path.avatar";

@@ -17,10 +17,18 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "projectUseRel")
+@Table(name = "projectUserRel")
 @IdClass(ProjectUserPk.class)
 public class ProjectUser implements Serializable{
+	public ProjectUser() {
+		
+	}
 	
+	public ProjectUser(Long projectId, Long userId) {
+		super();
+		this.projectId = projectId;
+		this.userId = userId;
+	}
 	/**
 	 * 
 	 */

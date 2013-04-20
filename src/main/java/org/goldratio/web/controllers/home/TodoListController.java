@@ -11,6 +11,7 @@ import org.goldratio.core.ZenTaskConstants;
 import org.goldratio.models.TodoList;
 import org.goldratio.models.User;
 import org.goldratio.repositories.TodoListRepository;
+import org.goldratio.services.TodoListService;
 import org.goldratio.web.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,14 +36,14 @@ public class TodoListController extends BaseController{
 	@Autowired
 	private TodoListRepository todoListRepository;
 	
-	
+	@Autowired
+	private TodoListService todoListService;
 	
 	@RequestMapping("/project/{projectId}/todoList/{todoListId}")
-	public ModelAndView listProject(@PathVariable long todoListId, @PathVariable long messageId, HttpServletResponse response, HttpSession session)  {
-		TodoList todoList = todoListRepository.findById(messageId);
+	public ModelAndView listProject(@PathVariable long projectId, @PathVariable long todoListId, HttpServletResponse response, HttpSession session)  {
+		TodoList todoList = todoListRepository.findById(todoListId);
 		return new ModelAndView("todoList", "todoList", todoList);
 	}
-
 
 	@RequestMapping(value = "/project/{projectId}/todoList", method = RequestMethod.POST)
 	@ResponseBody
@@ -52,7 +53,7 @@ public class TodoListController extends BaseController{
 		Date currentDate = new Date();
 		todoList.setCreateTime(currentDate);
 		todoList.setProjectId(projectId);
-		todoListRepository.save(todoList);
+		todoListService.create(todoList);
 		return buildSuccessResult(session, "todoList", todoList);
 	}
 }

@@ -1,12 +1,11 @@
-apply plugin: 'jetty'
 apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'war'
 
 group = 'org.goldratio'
 version = '1.0'
 archivesBaseName = 'ZenTask'
 
-apply plugin: 'java'
-apply plugin: 'war'
 
 sourceSets {
   main {
@@ -14,6 +13,11 @@ sourceSets {
   }
 }
 
+eclipse {
+  classpath {
+    defaultOutputDir = file('src/main/webapp/WEB-INF/classes')
+  }
+}
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
@@ -52,10 +56,9 @@ dependencies() {
     compile("org.hibernate:hibernate-core:$hibernateVersion")
     compile("org.hibernate:hibernate-validator:4.3.0.Final")
  	
-    compile("javax.servlet:javax.servlet-api:3.0.1")
+//    compile("javax.servlet:javax.servlet-api:3.0.1")
     compile("javax.servlet:jstl:1.2") 
-    compile("javax.servlet.jsp:jsp-api:2.1") 
-    compile("org.slf4j:slf4j-api:1.7.1")
+//    compile("org.slf4j:slf4j-api:1.7.1")
 
 
     compile("joda-time:joda-time:2.1")
@@ -75,7 +78,21 @@ dependencies() {
 	compile("org.apache.velocity:velocity:1.7")
 	compile("org.apache.velocity:velocity-tools:2.0")
 	
+	compile("org.atmosphere:atmosphere-runtime:1.1.0.RC1")
+	compile("org.atmosphere:atmosphere-spring:1.1.0.RC1")
+	
+	
+	
+	compile("com.google.code.google-collections:google-collect:snapshot-20080530");
+	
+	
+	providedCompile("org.apache.tomcat:tomcat-servlet-api:7.0.37");
+	providedCompile("org.apache.tomcat:tomcat-jsp-api:7.0.37");
+	providedCompile("org.apache.tomcat:tomcat-el-api:7.0.37");
+	providedCompile("org.apache.tomcat:tomcat-coyote:7.0.37");
 	
 //    compile("javax:javaee-api:6.0")
     compile("log4j:log4j:1.2.17")
+
+
 }

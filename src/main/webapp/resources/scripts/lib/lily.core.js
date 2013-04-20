@@ -6,6 +6,44 @@
  */
 
 (function( $, undefined ) {
+	
+	var matched, browser;
+
+	// Use of jQuery.browser is frowned upon.
+	// More details: http://api.jquery.com/jQuery.browser
+	// jQuery.uaMatch maintained for back-compat
+	jQuery.uaMatch = function( ua ) {
+	    ua = ua.toLowerCase();
+
+	    var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+	        /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+	        /(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+	        /(msie) ([\w.]+)/.exec( ua ) ||
+	        ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+	        [];
+
+	    return {
+	        browser: match[ 1 ] || "",
+	        version: match[ 2 ] || "0"
+	    };
+	};
+
+	matched = jQuery.uaMatch( navigator.userAgent );
+	browser = {};
+
+	if ( matched.browser ) {
+	    browser[ matched.browser ] = true;
+	    browser.version = matched.version;
+	}
+
+	// Chrome is Webkit, but Webkit is also Safari.
+	if ( browser.chrome ) {
+	    browser.webkit = true;
+	} else if ( browser.webkit ) {
+	    browser.safari = true;
+	}
+
+	jQuery.browser = browser;
 
 // prevent duplicate loading
 // this is only a problem because we proxy existing functions
@@ -76,10 +114,21 @@ $.extend( $.lily, {
 		return $.ajax(option);
 	},
 	
+	formatPostData: function(data) {
+		$.extend(data, $.lily.collectCsrfData())
+	},
+	
 	collectCsrfData: function() {
 		var data = {}
         $('#csrfForm > input').each(function(){
         	data[this.name] = this.value
+        });
+		return data; 
+	},
+	collectCsrfDataStr: function() {
+		var data = ""
+        $('#csrfForm > input').each(function(){
+        	data += '' + this.name + '=' + this.value +''
         });
 		return data; 
 	},
@@ -92,6 +141,91 @@ $.extend( $.lily, {
                 guid += "-";
         }
         return guid;
+    },
+    collectRequestData: function(sourceElement) {
+        var orginRequestData = {}
+        $('input' , sourceElement).each(function() {
+            // 待用统一方法完善
+            if (this.type == 'checkbox') {
+                if (this.checked) {
+                    orginRequestData[this.name] = '1'
+                } 
+                else {
+                    orginRequestData[this.name] = '0'
+                }
+            } 
+            else if (this.type == 'radio') {
+                if (this.checked) {
+                    orginRequestData[this.name] = this.value
+                }
+            }
+            else {
+                var $this = $(this)
+                /*
+                var dataValidate = $this.attr('data-validate')
+                if(dataValidate) {
+                    var config = $.parseJSON(dataValidate)
+                    if(config.type && config.type == 'currency') {
+                        orginRequestData[this.name] = $.lily.format.removeComma(this.value)
+                        return
+                    }
+                    else {
+                        orginRequestData[this.name] = this.value
+                        return
+                    }
+                }
+                */
+                orginRequestData[this.name] = this.value
+            }
+        })
+        
+        $('textarea' , sourceElement).each(function() {
+            orginRequestData[this.name] = this.value
+        })
+        
+        $('select' , sourceElement).each(function() {
+            orginRequestData[this.name] = this.value
+        })
+        
+        $('[data-toggle="select"]', sourceElement).each(function() {
+        	var $this = $(this)
+        	var orginStatues = $(this).attr("data-orgin-statues")
+        	var selected = false;
+        	if(orginStatues == "selected") {
+        		if($this.hasClass("selected"))
+        			return
+        		selected = false;
+        	}
+        	else {
+        		if(!$this.hasClass("selected"))
+        			return
+        		selected = true;
+        	}
+        	var contentValue = $this.attr("data-content")
+        	if(orginRequestData[$this.attr("name")]) {
+            	orginRequestData[$this.attr("name")].push({"content": contentValue, "selected": selected})
+        	}
+        	else {
+        		orginRequestData[$this.attr("name")] = []
+        		orginRequestData[$this.attr("name")].push({"content": contentValue, "selected": selected})
+        	}
+        })
+        return orginRequestData
+    },
+    showWait : function(target) {
+    	var waitObj = $('<img src="' + $.lily.contextPath + '/resources/images/empty.gif" class="tiny-load">');
+    	waitObj.css({
+    		width: target.width(),
+    		height: target.height(),
+    		padding: target.css("padding"),
+    		float: target.css("float")
+    	})
+    	target.hide();
+    	waitObj.insertAfter(target);
+    },
+    hideWait: function(target) {
+    	target.next('img').remove();
+    	target.css("display", "")
     }
 });
 })( jQuery ); 

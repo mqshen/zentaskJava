@@ -2,6 +2,7 @@ package org.goldratio.web.controllers;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -14,11 +15,13 @@ import org.goldratio.core.ZenTaskConstants;
 import org.goldratio.models.InviteProject;
 import org.goldratio.models.InviteUser;
 import org.goldratio.models.ProjectUser;
+import org.goldratio.models.Team;
 import org.goldratio.models.TeamRole;
 import org.goldratio.models.User;
 import org.goldratio.repositories.InviteProjectRepository;
 import org.goldratio.repositories.InviteUserRepository;
 import org.goldratio.repositories.ProjectUserRepository;
+import org.goldratio.repositories.TeamRepository;
 import org.goldratio.repositories.TeamUserRoleRepository;
 import org.goldratio.repositories.UserRepository;
 import org.goldratio.util.ZenTaskUtil;
@@ -60,7 +63,50 @@ public class JoinController {
 	@Autowired
 	private ProjectUserRepository projectUserRepository;
 	
-	@RequestMapping(value = "/{hashCode}", method = RequestMethod.GET)
+	@Autowired
+	private TeamRepository teamRepository;
+	
+	@RequestMapping(value="/join", method=RequestMethod.GET)
+	public ModelAndView getRegist() {
+		return new ModelAndView("regist");
+	}
+	
+	
+	@RequestMapping(value="/join", method=RequestMethod.POST)
+	public ModelAndView doRegist(String teamName, String name, String email, String password) {
+
+		if(userRepository.findByEmail(email)!=null)
+			return new ModelAndView("registFailed");
+		Date currentDate = new Date();
+		
+		User user = new User();
+		user.setEmail(email);
+		user.setName(name);
+		user.setSalt(name);
+		user.setNickName(name);
+		user.encryptPass(password);
+		
+		userRepository.save(user);
+		
+		Team team = new Team();
+		
+		team.setTitle(teamName);
+		team.setCreateTime(currentDate);
+		team.setAuthorId(user.getId());
+		
+		teamRepository.save(team);
+		
+		TeamRole teamRole = new TeamRole();
+		teamRole.setRole(User.ADMIN);
+		teamRole.setTeamId(team.getId());
+		teamRole.setUserId(user.getId());
+		
+		teamUserRoleRepository.save(teamRole);
+		
+		return new ModelAndView("registSuccess");
+	}
+	
+	@RequestMapping(value = "/join/{hashCode}", method = RequestMethod.GET)
 	public ModelAndView showJoin(@PathVariable String hashCode, HttpServletResponse response) {
 		InviteUser inviteUser = inviteUserRepository.findByHashCode(hashCode);
 //		Cookie cookie = new Cookie(ZenTaskConstants.UUID, null);
@@ -72,7 +118,8 @@ public class JoinController {
 		return new ModelAndView("join_no_found");
 	}
 
-	@RequestMapping(value = "/{hashCode}", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/join/{hashCode}", method = RequestMethod.POST)
 	public ModelAndView join(@PathVariable String hashCode, @RequestParam String nickName, 
 			@RequestParam String password,HttpServletResponse response, HttpSession session) {
 		InviteUser inviteUser = inviteUserRepository.findByHashCode(hashCode);
@@ -96,9 +143,7 @@ public class JoinController {
 			
 			List<InviteProject> inviteProjects = inviteProjectRepository.findByInviteId(inviteUser.getInviteId());
 			for(InviteProject inviteProject : inviteProjects) {
-				ProjectUser projectUser = new ProjectUser();
-				projectUser.setProjectId(inviteProject.getProjectId());
-				projectUser.setUserId(user.getId());
+				ProjectUser projectUser = new ProjectUser(inviteProject.getProjectId(), user.getId());
 				projectUserRepository.save(projectUser);
 			}
 			inviteUserRepository.delete(inviteUser.getHashCode());

@@ -13,6 +13,7 @@ import org.goldratio.models.TodoItem;
 import org.goldratio.models.User;
 import org.goldratio.repositories.TodoItemRepository;
 import org.goldratio.repositories.UserRepository;
+import org.goldratio.services.TodoItemService;
 import org.goldratio.web.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,9 @@ public class TodoItemController extends BaseController{
 	private TodoItemRepository todoItemRepository;
 	
 	@Autowired
+	private TodoItemService todoItemService;
+	
+	@Autowired
 	private UserRepository userRepository;
 
 
@@ -44,12 +48,15 @@ public class TodoItemController extends BaseController{
 	@ResponseBody
 	public Map<String, Object> create(@PathVariable long projectId, @PathVariable long todoListId
 			, TodoItem todoItem, HttpServletResponse response, HttpSession session)  {
+		Long teamId = (Long) session.getAttribute(ZenTaskConstants.TEAM_FIELD);
 		User currentUser = (User) session.getAttribute(ZenTaskConstants.USER_FIELD);
 		todoItem.setAuthorId(currentUser.getId());
 		Date currentDate = new Date();
 		todoItem.setCreateTime(currentDate);
 		todoItem.setTodoListId(todoListId);
-		todoItemRepository.save(todoItem);
+		todoItem.setTeamId(teamId);
+		todoItem.setProjectId(projectId);
+		todoItemService.create(todoItem);
 		if(todoItem.getWorkerId() != null) {
 			User worker = userRepository.findById(todoItem.getWorkerId());
 			todoItem.setWorker(worker);
@@ -60,15 +67,21 @@ public class TodoItemController extends BaseController{
 	@RequestMapping(value = "/project/{projectId}/todoList/{todoListId}/todoItem/{todoItemId}/{operationType}", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateOperation(@PathVariable long projectId, @PathVariable long todoListId
-			, @PathVariable long todoItemId, @PathVariable String operationType,HttpServletRequest request, HttpServletResponse response, HttpSession session)  {
+			, @PathVariable long todoItemId, @PathVariable String operationType,TodoItem todoItemRequest, HttpServletRequest request, HttpServletResponse response, HttpSession session)  {
 		TodoItem todoItem = todoItemRepository.findById(todoItemId);
+		Long teamId = (Long) session.getAttribute(ZenTaskConstants.TEAM_FIELD);
 		if(todoItem == null)
 			return null;
+		todoItem.setTeamId(teamId);
 		if(operationType.equals("running")) {
 			todoItem.setRunning();
 		}
 		else if(operationType.equals("pause")) {
 			todoItem.setRunning();
+		}
+		else if(operationType.equals("worker")) {
+			todoItem.setWorkerId(todoItemRequest.getWorkerId());
+			todoItem.setDeadLine(todoItemRequest.getDeadLine());
 		}
 		todoItemRepository.save(todoItem);
 		return buildSuccessResult(request, session, "todoItem", todoItem);

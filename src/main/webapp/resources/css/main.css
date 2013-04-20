@@ -1173,13 +1173,13 @@ body .wrapper {
 	font-size: 11px;
 	line-height: 1.4;
 	opacity: 0;
-	filter: alpha(opacity =     0);
+	filter: alpha(opacity =               0);
 	visibility: visible;
 }
 
 .tooltip.in {
 	opacity: 0.8;
-	filter: alpha(opacity =     80);
+	filter: alpha(opacity =               80);
 }
 
 .tooltip.top {
@@ -2726,7 +2726,7 @@ textarea {
 .attachments-preview .file-list .file-images .file {
 	width: 220px;
 	float: left;
-	margin: 0 20px 20px 0
+	margin: 0 20px 20px 20px;
 }
 
 .attachments-preview .file-list .file-images .file .file-thumb {
@@ -2810,6 +2810,7 @@ textarea {
 }
 
 .attachments-preview .file-list .file-others .file .file-thumb {
+	position: relative;
 	width: auto
 }
 
@@ -3205,7 +3206,7 @@ textarea {
 .form-new-discussion #txt-title {
 	font-size: 20px;
 	line-height: 1;
-	width: 854px
+	width: 100%;
 }
 
 .form-new-discussion #txt-content {
@@ -3359,16 +3360,20 @@ textarea {
 
 .file-list .file {
 	min-height: 60px;
-	margin: 0 0 20px 0;
-	*zoom: 1
+	margin: 10px 0 20px 20px;
+	*zoom: 1;
+	width: 200px;
+	float: left;
+	position: relative;
 }
 
 .file-list .file:before,.file-list .file:after {
 	display: table;
-	content: ""
+	content: "";
+	clear: both;
 }
 
-.file-list .file:after {
+.file-list .file-images:after {
 	clear: both
 }
 
@@ -3458,7 +3463,6 @@ textarea {
 
 .file-list .file .file-thumb a {
 	display: block;
-	float: right
 }
 
 .file-list .file .file-thumb a img {
@@ -3469,10 +3473,31 @@ textarea {
 }
 
 .file-list .file .file-thumb a img.image {
-	border: 1px solid #d0d0d0;
 	padding: 1px;
-	max-width: 116px;
-	max-height: 116px
+	max-width: 200px;
+	max-height: 200px
+}
+
+.file-list .file a.remove {
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	background: url(../images/circular_x_black.png);
+	vertical-align: bottom;
+	cursor: hand;
+	margin-top: 1px;
+	position: absolute;
+	right: -9px;
+	top: -9px;
+	display: none;
+}
+
+.form-edit-message .file-list .file a.remove {
+	display: block;
+}
+
+.file-list .file .name {
+	font-size: 12px;
 }
 
 .file-list .file .file-info {
@@ -4353,7 +4378,7 @@ input.placeholder {
 	height: 75px;
 	padding: 0;
 	overflow: hidden;
-	background: url("member-todo-today.png") no-repeat left top;
+	background: url("../images/member-todo-today.png") no-repeat left top;
 	color: #a39c68;
 	text-indent: -999px;
 	opacity: .5
@@ -4364,7 +4389,7 @@ input.placeholder {
 }
 
 .page#page-member .box.box-today .todolist .actions .inr a {
-	background-image: url("todo-actions-icon-today.png")
+	background-image: url("../images/todo-actions-icon-today.png")
 }
 
 .page#page-member .box.box-today .todolist .todo .label {
@@ -4746,7 +4771,10 @@ input.placeholder {
 .page#page-message .form-edit-message #txt-title {
 	font-size: 20px;
 	line-height: 1;
-	width: 674px
+	width: 100%;
+	border: 0;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
 }
 
 .page#page-message .form-edit-message #txt-content {
@@ -5938,7 +5966,7 @@ input.placeholder {
 	right: 7px;
 	width: 15px;
 	height: 15px;
-	background: url("icon-info.png") left top no-repeat
+	background: url("../images/icon-info.png") left top no-repeat
 }
 
 .page#page-team-show .project .folder:hover {
@@ -6086,11 +6114,31 @@ input.placeholder {
 
 
 
+
+
+
+
+
+
+
+
+
+
 #page-team-show
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6098,7 +6146,17 @@ input.placeholder {
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6106,7 +6164,17 @@ input.placeholder {
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6117,11 +6185,31 @@ li
 
 
 
+
+
+
+
+
+
+
+
+
+
 :not
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6130,7 +6218,17 @@ li
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6142,7 +6240,22 @@ background
 
 
 
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
 
 
 
@@ -6150,7 +6263,22 @@ background
 
 
 
+
+
+
+
+
 #fff
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6165,7 +6293,22 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
 
 
 
@@ -6173,7 +6316,22 @@ opacity
 
 
 
+
+
+
+
+
 .6
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6188,11 +6346,31 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
 :
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6200,7 +6378,17 @@ all
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6209,11 +6397,31 @@ all
 
 
 
+
+
+
+
+
  
 
 
 
+
+
+
+
+
 ease-in-out
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6228,11 +6436,31 @@ ease-in-out
 
 
 
+
+
+
+
+
+
+
+
+
+
 :
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6240,7 +6468,17 @@ all
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6249,11 +6487,31 @@ all
 
 
 
+
+
+
+
+
  
 
 
 
+
+
+
+
+
 ease-in-out
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6268,11 +6526,31 @@ transition
 
 
 
+
+
+
+
+
+
+
+
+
+
 :
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6280,7 +6558,17 @@ all
 
 
 
+
+
+
+
+
  
+
+
+
+
+
 
 
 
@@ -6289,11 +6577,31 @@ all
 
 
 
+
+
+
+
+
  
 
 
 
+
+
+
+
+
 ease-in-out
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -9040,21 +9348,18 @@ ease-in-out
 
 .backdrop,.backdrop.fade.in {
 	opacity: 0.1;
-	filter: alpha(opacity =       10);
+	filter: alpha(opacity =                 10);
 }
 
 .tiny-load {
-	display: block;
-	width: 26px;
-	height: 24px;
-	margin: 0px;
-	padding: 0;
-	border: 0;
-	float: right;
-	position: static;
+	display: inline-block;
+	width: 131px;
+	height: 20px;
+	margin: 0px 0px 0px 5px;
+	position: relative;
 	vertical-align: bottom;
-	background-image: url(../images/tiny-loading.gif);
-	bottom: auto;
+	background-image: url(../images/tiny-loading.gif );
+	top: -2px;
 	right: auto;
 	background-position: 50% 50%;
 	background-repeat: no-repeat no-repeat;
@@ -9221,4 +9526,42 @@ ease-in-out
 
 .page#page-members .members .member-invite .name {
 	color: #9cb073;
+}
+
+.sign-page {
+	width: 960px;
+	margin: 100px auto 0;
+}
+
+.sign-page .bd {
+	margin: 0 auto;
+	overflow: hidden;
+	text-align: center;
+}
+
+.sign-page .bd .form-field input {
+	width: 300px;
+	padding: 10px 10px;
+	border: 1px solid #aaa;
+	font-size: 18px;
+	-webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.sign-page .bd .btn-submit {
+	width: 300px;
+	padding: 5px;
+	margin: 0;
+	border: none;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+	-webkit-text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+	-moz-text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }

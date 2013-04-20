@@ -3,6 +3,7 @@ package org.goldratio.models;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -20,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @version 1.0
  */
 @MappedSuperclass
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
-public class BaseModel {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer", "handler", "fieldHandler"})
+public abstract class BaseModel {
 
 	@Id
 	@GeneratedValue(generator="sequenceStyleGenerator")
@@ -44,4 +45,7 @@ public class BaseModel {
 	protected void setId(final Long id) {
 		this.id = id;
 	}
+	
+	public abstract Long getTeamId();
+	
 }

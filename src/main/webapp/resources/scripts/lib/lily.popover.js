@@ -10,7 +10,10 @@
         this.$element = $(element)
         this.options = $.extend({}, $.fn.popover.defaults, options)
         this.mainOffset = $('#main-workspace').offset()
-        this.$content = $(this.$element.attr("data-conent"))
+        var $content = $(this.$element.attr("data-conent"))
+        this.$content = $content.clone();
+        this.$content.insertAfter($content)
+        
     }
 
 
@@ -52,9 +55,39 @@
                 }
                 that.$content.fadeOut()
 
-                that.$element.show()
+                //that.$element.show()
                 
                 that.$content.fadeIn()
+                function processResponse(data) {
+                	var obj = '<span class="assignee">' + data.todoItem.worker.name  + '&nbsp;</span>'
+                	 + '<span class="due">' + $.lily.format.formatDate(data.todoItem.deadLine, 'yyyy-mm-dd') + '</span>';
+                	that.$element.html(obj);
+                	$.lily.hideWait(that.$element);
+                }
+                function dateSelectCallback(date) {
+                	if(that.$element.attr("data-remote") == "true") {
+                		that.hide()
+                		var url = that.$element.attr("href");
+                		var requestData = $.lily.collectRequestData(that.$content);
+                		requestData[that.$element.attr("data-date-name")] = $.lily.format.formatDate(date, 'yyyy-mm-dd 23:59:59')
+                		$.lily.showWait(that.$element);
+                		$.lily.ajax({url: url,
+                			dataType: 'json',
+                			data: requestData,
+                	        type: 'POST',
+                	        processResponse: processResponse
+                	    })
+                	}
+                	else {
+                    	that.$element.next('input').val($.lily.format.formatDate(date, 'yyyy-mm-dd 23:59:59'));
+                    	that.$element.text($.lily.format.formatDate(date))
+                    	that.hide();
+                	}
+                }
+                $('.datepicker', that.$content).calendar({
+			    	selectFun: dateSelectCallback,
+			    	target: that.$element
+			    })
                 
             })
         },
@@ -134,7 +167,9 @@
 
     $(document).on('click.popover.data-api', '[data-toggle^=popover]', function (e) {
         var $btn = $(e.target)
+        if (!$btn.hasClass('label')) $btn = $btn.closest('.label')
         $btn.popover('show')
+        e.preventDefault()
     })
 
 }(window.jQuery);

@@ -11,6 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /** 
  * ClassName: Project <br/> 
  * Function: <br/> 
@@ -23,6 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "project")
+@JsonIgnoreProperties({"members","messages","todoLists"})
 public class Project  extends BaseModel implements Serializable{ 
 	/**
 	 * 
@@ -50,7 +53,7 @@ public class Project  extends BaseModel implements Serializable{
 	/**
 	 * 所有讨论
 	 */
-	@OneToMany
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="projectId")
 	private List<TodoList> todoLists;
 	

@@ -25,9 +25,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties(value={"password", "salt"})
+@JsonIgnoreProperties(value={"password", "salt", "teams", "hibernateLazyInitializer", "handler", "fieldHandler"})
 public class User  extends BaseModel implements Serializable{
 
+	public static final int GUEST = 0;
+	public static final int USER = 1;
+	public static final int ADMIN = 2;
+	
+	private static String[] ROLE_NAME_ARRAY = {
+			"访客",
+			"成员",
+			"管理员"
+	};
 	/**
 	 * 
 	 */
@@ -48,12 +57,14 @@ public class User  extends BaseModel implements Serializable{
           joinColumns=@JoinColumn(name="userId", referencedColumnName="id"),
           inverseJoinColumns=@JoinColumn(name="teamId", referencedColumnName="id"))
 	private List<Team> teams;
+	
+	
     
     @Transient
     private int role;
     
     @Transient
-    private Team currentTeam;
+    private Long currentTeamId;
 
     public String getName() {
         return name;
@@ -134,20 +145,38 @@ public class User  extends BaseModel implements Serializable{
 		this.role = role;
 	}
 
-    @Transient
-	public Team getCurrentTeam() {
-		return currentTeam;
-	}
-
-	public void setCurrentTeam(Team currentTeam) {
-		this.currentTeam = currentTeam;
-	}
-	
     public List<Team> getTeams() {
 		return teams;
 	}
 
+    @Transient
+	public Long getCurrentTeamId() {
+		return currentTeamId;
+	}
+
+	public void setCurrentTeamId(Long currentTeamId) {
+		this.currentTeamId = currentTeamId;
+	}
+
 	public void setTeams(List<Team> teams) {
 		this.teams = teams;
+	}
+
+	public boolean isAdmin() {
+		return role == ADMIN;
+	}
+
+	public String getRoleName() {
+		return ROLE_NAME_ARRAY[this.role];
+	}
+	@Transient
+	private Long teamId;
+	@Transient
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
 	}
 }

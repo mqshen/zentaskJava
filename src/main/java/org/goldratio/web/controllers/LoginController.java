@@ -10,7 +10,9 @@ import javax.validation.Valid;
 
 import org.goldratio.core.ZenTaskConstants;
 import org.goldratio.models.Team;
+import org.goldratio.models.TeamRole;
 import org.goldratio.models.User;
+import org.goldratio.repositories.TeamUserRoleRepository;
 import org.goldratio.repositories.UserRepository;
 import org.goldratio.util.ZenTaskUtil;
 import org.goldratio.web.forms.LoginForm;
@@ -40,6 +42,9 @@ public class LoginController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired 
+	private TeamUserRoleRepository teamUserRoleRepository;
 	
 	@ModelAttribute("loginForm")
 	public LoginForm createFormBean() {
@@ -73,6 +78,8 @@ public class LoginController {
 			cookie.setMaxAge(-1);
 			session.setAttribute(ZenTaskConstants.UUID, uuid);
 			session.setAttribute(ZenTaskConstants.USER_FIELD, user);
+			session.setAttribute(ZenTaskConstants.USER_ID_FIELD, user.getId());
+			
 			List<Team> teams = user.getTeams();
 			response.addCookie(cookie);
 			if(teams == null || teams.size() == 0)
@@ -80,6 +87,9 @@ public class LoginController {
 			if(teams.size() > 1)
 				return new ModelAndView("selectTeam", "teams", teams);
 			Team team = teams.get(0);
+			user.setCurrentTeamId(team.getId());
+			TeamRole teamRole = teamUserRoleRepository.findByTeamIdAndUserId(team.getId(), user.getId());			
+			user.setRole(teamRole.getRole());
 			session.setAttribute(ZenTaskConstants.TEAM_FIELD, team.getId());
 			return new ModelAndView("redirect:/project");
 		}

@@ -29,6 +29,9 @@ public interface AttachmentService {
 	
 	public String uploadImage(MultipartFile file) throws IOException, ServerException;
 	
+	public String uploadAttachment(MultipartFile file) throws IOException, ServerException;
 	
 	public void download(String path, OutputStream outputStream) throws IOException, ServerException;
+	
+	public void downloadAttachment(String path, OutputStream outputStream) throws IOException, ServerException;
 }
